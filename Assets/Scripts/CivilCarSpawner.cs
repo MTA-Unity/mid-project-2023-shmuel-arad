@@ -14,7 +14,7 @@ public class CivilCarSpawner : MonoBehaviour
     private void Start()
     {
         // Set the possible spawn places on the road
-        _placesOnRoad = new float[4] { -2.11f, -0.76f, 0.76f, 2.11f };
+        _placesOnRoad = new float[4] { -1.7f, -0.6f, 0.6f, 1.7f };
 
         // Reset the car spawn delay
         _spawnDelay = carSpawnDelay;

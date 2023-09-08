@@ -28,7 +28,7 @@ public class BonusSpawner : MonoBehaviour
             _delay = Random.Range(minDelay, maxDelay);
 
             // Create a random bonus in a random horizontal location at the top of the road
-            Instantiate(bonuses[(int)Random.Range(0, bonuses.Length)], new Vector3(Random.Range(-2.4f, 2.4f), 6f, 0), Quaternion.identity);
+            Instantiate(bonuses[(int)Random.Range(0, bonuses.Length)], new Vector3(Random.Range(-2, 2), 6f, 0), Quaternion.identity);
         }
     }
 }
