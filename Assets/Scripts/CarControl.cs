@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // In charge of moving the car by the user input
 public class CarControl : MonoBehaviour
 {
     public float carHorizontalSpeed;
     public float carVerticalSpeed;
+    public Button gasButton;
+    public Button brakeButton;
+
+    private bool gasClicked = false;
+    private bool brakeClicked = false;
 
     private void Start()
     {
@@ -16,6 +22,42 @@ public class CarControl : MonoBehaviour
         {
             Input.gyro.enabled = true;
         }
+    }
+
+    public void GasButtonClicked()
+    {
+        var scale = gasButton.transform.localScale;
+        scale.y = 0.9f;
+        gasButton.transform.localScale = scale;
+
+        gasClicked = true;
+    }
+
+    public void GasButtonReleased()
+    {
+        var scale = gasButton.transform.localScale;
+        scale.y = 1;
+        gasButton.transform.localScale = scale;
+
+        gasClicked = false;
+    }
+
+    public void BrakeButtonClicked()
+    {
+        var scale = brakeButton.transform.localScale;
+        scale.y = 0.9f;
+        brakeButton.transform.localScale = scale;
+
+        brakeClicked = true;
+    }
+
+    public void BrakeButtonReleased()
+    {
+        var scale = brakeButton.transform.localScale;
+        scale.y = 1;
+        brakeButton.transform.localScale = scale;
+
+        brakeClicked = false;
     }
 
     private static float GetHorizontalAxis()
@@ -36,14 +78,9 @@ public class CarControl : MonoBehaviour
 
     private float GetVerticalAxis()
     {
-        if (Input.touchSupported)
+        if (gasClicked != brakeClicked)
         {
-            if (Input.touchCount == 0)
-            {
-                return 0;
-            }
-
-            return Input.GetTouch(0).deltaPosition.y > 0 ? 1 : -1;
+            return gasClicked ? 1f : -1f;
         }
 
         return Input.GetAxis("Vertical");
