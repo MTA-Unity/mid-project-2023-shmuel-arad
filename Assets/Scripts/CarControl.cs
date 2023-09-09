@@ -8,13 +8,19 @@ using UnityEngine.UI;
 // In charge of moving the car by the user input
 public class CarControl : MonoBehaviour
 {
-    public float carHorizontalSpeed;
-    public float carVerticalSpeed;
+    public float maxSpeed = 3f;
+    public float driftFactor = 0.95f;
+    public float accelerationFactor = 4f;
+    public float turnFactor = 7f;
+    public float roadDrag = 4f;
+
     public Button gasButton;
     public Button brakeButton;
 
     private bool gasClicked = false;
     private bool brakeClicked = false;
+
+    private Rigidbody2D carRigidbody2D;
 
     private void Start()
     {
@@ -87,21 +93,10 @@ public class CarControl : MonoBehaviour
         return Input.GetAxis("Vertical");
     }
 
-    Rigidbody2D carRigidbody2D;
-    float velocityVsUp;
-
-    float maxSpeed = 3;
-    float driftFactor = 0.95f;
-    float accelerationFactor = 3.0f;
-    float turnFactor = 5f;
-
-
-    private void ApplyEngineForce()
+    private void ApplyEngineForce(float accelerationInput)
     {
-        float accelerationInput = GetVerticalAxis();
-
         //Calculate how much "forward" we are going in terms of the direction of our velocity
-        velocityVsUp = Vector2.Dot(transform.up, carRigidbody2D.velocity);
+        float velocityVsUp = Vector2.Dot(transform.up, carRigidbody2D.velocity);
 
         //Limit so we cannot go faster then the max speed in the "forward" direction
         if (velocityVsUp > maxSpeed && accelerationInput > 0)
@@ -112,26 +107,30 @@ public class CarControl : MonoBehaviour
             return;
 
         //Limit so we cannot go faster in any direction while accelerating
-        if (carRigidbody2D.velocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0)
+        if (carRigidbody2D.velocity.magnitude > maxSpeed && accelerationInput > 0)
             return;
 
 
-        //Apply drag if there is no accelerations so the car stops when the player lets go of the accelerator
-        if (accelerationInput == 0)
-            carRigidbody2D.drag = Mathf.Lerp(carRigidbody2D.drag, 3.0f, Time.fixedDeltaTime * 3);
-        else
-            carRigidbody2D.drag = 0;
-
         //Create force for the engine
         Vector2 engineForceVector = accelerationFactor * accelerationInput * transform.up;
+
+        //Apply drag if there is no accelerations so the car stops when the player lets go of the accelerator
+        if (accelerationInput == 0)
+        {
+            carRigidbody2D.drag = Mathf.Lerp(carRigidbody2D.drag, 3.0f, Time.fixedDeltaTime * 3);
+            engineForceVector.y -= roadDrag + roadDrag * Mathf.Abs(carRigidbody2D.rotation) / 90f;
+        }
+        else
+        {
+            carRigidbody2D.drag = 0;
+        }
 
         //Apply force and pushes the car forward
         carRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
 
     }
-    private void ApplySteering()
+    private void ApplySteering(float steeringInput)
     {
-        float steeringInput = GetHorizontalAxis();
         //Limit the cars ability to turn when moving slowly
         float minSpeedBeforAllowTurningFactor = (carRigidbody2D.velocity.magnitude / 8);
         minSpeedBeforAllowTurningFactor = Mathf.Clamp01(minSpeedBeforAllowTurningFactor);
@@ -147,21 +146,24 @@ public class CarControl : MonoBehaviour
         carRigidbody2D.MoveRotation(rotationAngle);
     }
 
-    private void KillOrthogonalVelocity()
+    private void KillOrthogonalVelocity(float accelerationInput)
     {
         Vector2 forwardVelocity = transform.up * Vector2.Dot(carRigidbody2D.velocity, transform.up);
         Vector2 rightVelocity = transform.right * Vector2.Dot(carRigidbody2D.velocity, transform.right);
 
         //Limit car drift
-        carRigidbody2D.velocity = forwardVelocity + rightVelocity * driftFactor;
+        carRigidbody2D.velocity = forwardVelocity + (accelerationInput == 0 ? 1 : driftFactor) * rightVelocity;
     }
 
 
     private void Update()
     {
-        ApplyEngineForce();
-        ApplySteering();
-        KillOrthogonalVelocity();
+        float accelerationInput = GetVerticalAxis();
+        float steeringInput = GetHorizontalAxis();
+
+        ApplyEngineForce(accelerationInput);
+        ApplySteering(steeringInput);
+        KillOrthogonalVelocity(accelerationInput);
 
         Vector3 carPosition = gameObject.transform.position;
 

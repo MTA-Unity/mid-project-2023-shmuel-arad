@@ -1399,8 +1399,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e74dff64d8ce44ee9f6a4bb3f399c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carHorizontalSpeed: 4
-  carVerticalSpeed: 4
+  maxSpeed: 3
+  driftFactor: 0.95
+  accelerationFactor: 4
+  turnFactor: 7
+  roadDrag: 4
   gasButton: {fileID: 1929217922}
   brakeButton: {fileID: 867349950}
 --- !u!50 &954393657
@@ -1987,7 +1990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e013e9db76661499dbb2e1b1f25f6144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carSpawnDelay: 2
+  carSpawnDelay: 200
   civilCar: {fileID: 1406000705186384, guid: 36b04b4f372214d8596662d928135684, type: 3}
 --- !u!4 &1983590861
 Transform:
@@ -2022,5 +2025,5 @@ MonoBehaviour:
   - {fileID: 1171930004606076, guid: e0907554a240849eeb0e271039ee8bfc, type: 3}
   - {fileID: 1143153085960600, guid: eaa6f565f8ee14cb0a565768f39c75ee, type: 3}
   - {fileID: 1887515706929374, guid: 1f3bdd1e61f194b84b5466f6c94c450b, type: 3}
-  minDelay: 3
-  maxDelay: 5
+  minDelay: 1000
+  maxDelay: 1003
