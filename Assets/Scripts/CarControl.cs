@@ -8,14 +8,20 @@ using UnityEngine.UI;
 // In charge of moving the car by the user input
 public class CarControl : MonoBehaviour
 {
+    [Header("Car Physics")]
     public float maxSpeed = 3f;
     public float driftFactor = 0.95f;
     public float accelerationFactor = 4f;
     public float turnFactor = 7f;
     public float roadDrag = 135f;
+    public float dashForce = 200f;
 
+    [Header("Car Settings")]
+    public float dashTimeout = 2f;
     public int maxRotation = 70;
+    public int dashSwipeSpeed = 1000;
 
+    [Header("Car Buttons")]
     public Button gasButton;
     public Button brakeButton;
 
@@ -23,6 +29,8 @@ public class CarControl : MonoBehaviour
     private bool brakeClicked = false;
 
     private Rigidbody2D carRigidbody2D;
+
+    private float lastDashTime = 0;
 
     private void Start()
     {
@@ -160,8 +168,44 @@ public class CarControl : MonoBehaviour
         carRigidbody2D.velocity = forwardVelocity + (accelerationInput == 0 ? 1 : driftFactor) * rightVelocity;
     }
 
+    private void PerformDashIfPossible(bool right)
+    {
+        if (Time.realtimeSinceStartup - lastDashTime > dashTimeout)
+        {
+            lastDashTime = Time.realtimeSinceStartup;
+            carRigidbody2D.AddForce(new Vector2((right ? 1 : -1) * dashForce, 0));
+        }
+    }
 
-    private void Update()
+    private void DetectDashes()
+    {
+        if (Input.touchSupported && Input.touchCount > 0)
+        {
+            Touch lastTouch = Input.GetTouch(0);
+
+            if (lastTouch.deltaTime == 0) return;
+
+            if (lastTouch.deltaPosition.x / lastTouch.deltaTime > dashSwipeSpeed)
+            {
+                PerformDashIfPossible(true);
+            }
+            else if (lastTouch.deltaPosition.x / lastTouch.deltaTime < -dashSwipeSpeed)
+            {
+                PerformDashIfPossible(false);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.G))
+        {
+            PerformDashIfPossible(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            PerformDashIfPossible(false);
+        }
+    }
+
+
+    private void FixedUpdate()
     {
         float accelerationInput = GetVerticalAxis();
         float steeringInput = GetHorizontalAxis();
@@ -169,6 +213,7 @@ public class CarControl : MonoBehaviour
         ApplyEngineForce(accelerationInput);
         ApplySteering(steeringInput);
         KillOrthogonalVelocity(accelerationInput);
+        DetectDashes();
 
         if (Input.GetKey(KeyCode.Escape))
         {
