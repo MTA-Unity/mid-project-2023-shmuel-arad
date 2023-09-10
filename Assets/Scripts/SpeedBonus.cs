@@ -6,7 +6,6 @@ using UnityEngine;
 public class SpeedBonus : Bonus 
 {
     [Header("Speed settings")]
-    public float speedBoost;
     public float duration;
 
     private bool _active;
@@ -15,15 +14,21 @@ public class SpeedBonus : Bonus
     {
         // Activate the bonus
         _active = true;
-        StartCoroutine("SpeedBoostActivated");
+        GetComponent<Renderer>().enabled = false;
+        StartCoroutine(SpeedBoostActivated(collidingObject.GetComponent<CarControl>()));
     }
 
-    IEnumerator SpeedBoostActivated()
+    IEnumerator SpeedBoostActivated(CarControl carControl)
     {
-        // Change the speed of the entire game for the bonus's duration
-        Time.timeScale = speedBoost;
-        yield return new WaitForSeconds(duration * speedBoost);
-        Time.timeScale = 1f;
+        carControl.accelerationFactor *= 1.2f;
+        carControl.turnFactor *= 1.2f;
+        carControl.maxSpeed *= 1.2f;
+
+        yield return new WaitForSeconds(duration);
+
+        carControl.accelerationFactor /= 1.2f;
+        carControl.turnFactor /= 1.2f;
+        carControl.maxSpeed /= 1.2f;
 
         // Destroy the bonus only after the effect has taken place
         Destroy(gameObject);

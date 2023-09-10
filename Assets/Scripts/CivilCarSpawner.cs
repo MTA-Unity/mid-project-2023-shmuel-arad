@@ -11,6 +11,12 @@ public class CivilCarSpawner : MonoBehaviour
     private float _spawnDelay;
     private float[] _placesOnRoad;
 
+    public GameObject topBlock;
+    public GameObject bottomBlock;
+
+    public int leftLaneSpeed = 300;
+    public int rightLaneSpeed = 100;
+
     private void Start()
     {
         // Set the possible spawn places on the road
@@ -38,19 +44,24 @@ public class CivilCarSpawner : MonoBehaviour
     {
         // Choose spawn place
         int place = Random.Range(0, _placesOnRoad.Length);
+        GameObject car;
 
         // If the spawn place is on the right lanes, the car should be slower and move upwards
         if (place < _placesOnRoad.Length / 2)
         {
-            GameObject car = Instantiate(civilCar, new Vector3(_placesOnRoad[place], 6, 0), Quaternion.Euler(new Vector3(0, 0, 180)));
+            car = Instantiate(civilCar, new Vector3(_placesOnRoad[place], 6, 0), Quaternion.Euler(new Vector3(0, 0, 180)));
 
-            car.GetComponent<CivilCarBehavior>().direction = 1;
-            car.GetComponent<CivilCarBehavior>().civilCarSpeed = 12;
+            car.GetComponent<CivilCarBehavior>().civilCarSpeed = leftLaneSpeed;
         }
         // The spawn place is on the left lanes, the car should move fast and downwards
         else
         {
-            Instantiate(civilCar, new Vector3(_placesOnRoad[place], 6, 0), Quaternion.identity);
+            car = Instantiate(civilCar, new Vector3(_placesOnRoad[place], 6, 0), Quaternion.identity);
+
+            car.GetComponent<CivilCarBehavior>().civilCarSpeed = rightLaneSpeed;
         }
+
+        Physics2D.IgnoreCollision(car.GetComponent<BoxCollider2D>(), topBlock.GetComponent<BoxCollider2D>());
+        Physics2D.IgnoreCollision(car.GetComponent<BoxCollider2D>(), bottomBlock.GetComponent<BoxCollider2D>());
     }
 }

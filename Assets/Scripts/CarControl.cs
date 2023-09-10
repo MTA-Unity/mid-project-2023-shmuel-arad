@@ -12,7 +12,9 @@ public class CarControl : MonoBehaviour
     public float driftFactor = 0.95f;
     public float accelerationFactor = 4f;
     public float turnFactor = 7f;
-    public float roadDrag = 4f;
+    public float roadDrag = 135f;
+
+    public int maxRotation = 70;
 
     public Button gasButton;
     public Button brakeButton;
@@ -77,7 +79,10 @@ public class CarControl : MonoBehaviour
             Vector3 direction = attitude * Vector3.left;
             float degrees = Mathf.Atan2(direction.y, new Vector2(direction.x, direction.z).magnitude) * Mathf.Rad2Deg;
 
-            return Mathf.Clamp(degrees / 30f, -1f, 1f);
+            if (degrees > 15f) return 1;
+            if (degrees < -15f) return -1;
+
+            return degrees / 15f;
         }
 
         return Input.GetAxis("Horizontal");
@@ -118,7 +123,7 @@ public class CarControl : MonoBehaviour
         if (accelerationInput == 0)
         {
             carRigidbody2D.drag = Mathf.Lerp(carRigidbody2D.drag, 3.0f, Time.fixedDeltaTime * 3);
-            engineForceVector.y -= roadDrag + roadDrag * Mathf.Abs(carRigidbody2D.rotation) / 90f;
+            engineForceVector.y -= (roadDrag + roadDrag * Mathf.Abs(carRigidbody2D.rotation) / 90f) * Time.fixedDeltaTime;
         }
         else
         {
@@ -127,8 +132,8 @@ public class CarControl : MonoBehaviour
 
         //Apply force and pushes the car forward
         carRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
-
     }
+
     private void ApplySteering(float steeringInput)
     {
         //Limit the cars ability to turn when moving slowly
@@ -140,7 +145,7 @@ public class CarControl : MonoBehaviour
         //Update the rotation angle based on input
         rotationAngle -= steeringInput * turnFactor * minSpeedBeforAllowTurningFactor;
 
-        rotationAngle = Mathf.Clamp(rotationAngle, -85, 85);
+        rotationAngle = Mathf.Clamp(rotationAngle, -maxRotation, maxRotation);
 
         //Apply steering bu rotating the car object
         carRigidbody2D.MoveRotation(rotationAngle);
@@ -164,14 +169,6 @@ public class CarControl : MonoBehaviour
         ApplyEngineForce(accelerationInput);
         ApplySteering(steeringInput);
         KillOrthogonalVelocity(accelerationInput);
-
-        Vector3 carPosition = gameObject.transform.position;
-
-        // Make sure the location doesn't exceed the road
-        carPosition.x = Mathf.Clamp(carPosition.x, -2f, 2f);
-        carPosition.y = Mathf.Clamp(carPosition.y, -4.4f, 4.5f);
-
-        gameObject.transform.position = carPosition;
 
         if (Input.GetKey(KeyCode.Escape))
         {

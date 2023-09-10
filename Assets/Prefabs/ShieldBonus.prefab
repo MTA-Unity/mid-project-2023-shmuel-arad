@@ -124,5 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a556ac754aab92499ceb544b201fc48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusSpeed: 5
+  bonusSpeed: 10
   shield: {fileID: 1564998932995594, guid: 86a46262b158c4ee58091f8f3d2ef829, type: 3}

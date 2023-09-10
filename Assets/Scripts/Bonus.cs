@@ -8,8 +8,8 @@ using UnityEngine;
  */
 public abstract class Bonus : MonoBehaviour 
 {
-    [Header("Bonuses settings")]
-    public float bonusSpeed = 5f;
+    [Header("Bonus settings")]
+    public float bonusSpeed = 10f;
 
     private void Update()
     {

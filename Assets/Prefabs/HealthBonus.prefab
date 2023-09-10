@@ -124,5 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7555e4e1348e4f548ac5f6b083d3b0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bonusSpeed: 5
+  bonusSpeed: 10
   repairPoints: 50
