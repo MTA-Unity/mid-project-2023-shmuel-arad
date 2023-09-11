@@ -43,6 +43,7 @@ public class Score : MonoBehaviour {
 
         if (currentScore - scoreHundreds * 100 > 0)
         {
+            LevelManager.UnlockLevel(1);
             TextPopupManager.DisplayTextMidScreen($"{scoreHundreds}00 POINTS!");
             scoreHundreds++;
         }
