@@ -17,9 +17,12 @@ public class CarControl : MonoBehaviour
     public float dashForce = 200f;
 
     [Header("Car Settings")]
-    public float dashTimeout = 2f;
     public int maxRotation = 70;
+
+    [Header("Car Dash Settings")]
+    public float dashTimeout = 2f;
     public int dashSwipeSpeed = 1000;
+    public int dashScoreCost = 5;
 
     [Header("Car Buttons")]
     public Button gasButton;
@@ -172,6 +175,12 @@ public class CarControl : MonoBehaviour
     {
         if (Time.realtimeSinceStartup - lastDashTime > dashTimeout)
         {
+            if (dashScoreCost > 0)
+            {
+                TextPopupManager.DisplayTextOnPlayer($"-{dashScoreCost} POINTS!");
+                Score.AddScore(-dashScoreCost);
+            }
+
             lastDashTime = Time.realtimeSinceStartup;
             carRigidbody2D.AddForce(new Vector2((right ? 1 : -1) * dashForce, 0));
         }
@@ -194,16 +203,15 @@ public class CarControl : MonoBehaviour
                 PerformDashIfPossible(false);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.G))
+        else if (Input.GetKey(KeyCode.G))
         {
             PerformDashIfPossible(true);
         }
-        else if (Input.GetKeyDown(KeyCode.F))
+        else if (Input.GetKey(KeyCode.F))
         {
             PerformDashIfPossible(false);
         }
     }
-
 
     private void FixedUpdate()
     {

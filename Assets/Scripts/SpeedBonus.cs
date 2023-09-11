@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// This is the shield bonus effect script
+// This is the speed bonus effect script
 public class SpeedBonus : Bonus 
 {
     [Header("Speed settings")]
@@ -20,15 +20,17 @@ public class SpeedBonus : Bonus
 
     IEnumerator SpeedBoostActivated(CarControl carControl)
     {
-        carControl.accelerationFactor *= 1.2f;
-        carControl.turnFactor *= 1.2f;
-        carControl.maxSpeed *= 1.2f;
+        TextPopupManager.DisplayTextOnPlayer("UNLIMITED DASH!");
+        var prevTimeout = carControl.dashTimeout;
+        var prevCost = carControl.dashScoreCost;
+
+        carControl.dashTimeout = 0.1f;
+        carControl.dashScoreCost = 0;
 
         yield return new WaitForSeconds(duration);
 
-        carControl.accelerationFactor /= 1.2f;
-        carControl.turnFactor /= 1.2f;
-        carControl.maxSpeed /= 1.2f;
+        carControl.dashTimeout = prevTimeout;
+        carControl.dashScoreCost = prevCost;
 
         // Destroy the bonus only after the effect has taken place
         Destroy(gameObject);

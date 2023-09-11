@@ -1365,6 +1365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreUI: {fileID: 1400569000}
+  playerCar: {fileID: 954393654}
 --- !u!1 &820134826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2011,10 +2012,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Health: 100/100'
+  m_text: 'HEALTH: 100/100'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d42e073cd535a8a4a86e07e375206f1b, type: 2}
+  m_sharedMaterial: {fileID: -2487421679150361564, guid: d42e073cd535a8a4a86e07e375206f1b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2044,7 +2045,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
@@ -2123,8 +2124,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 320.31207, y: -140.88086}
-  m_SizeDelta: {x: 500.6241, y: 181.7617}
+  m_AnchoredPosition: {x: 473.34, y: -256.6335}
+  m_SizeDelta: {x: 806.69, y: 413.2674}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1400569000
 MonoBehaviour:
@@ -2146,10 +2147,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: 0'
+  m_text: 'SCORE: 0
+
+    x1'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d42e073cd535a8a4a86e07e375206f1b, type: 2}
+  m_sharedMaterial: {fileID: -2487421679150361564, guid: d42e073cd535a8a4a86e07e375206f1b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2179,7 +2182,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -2402,6 +2405,7 @@ GameObject:
   - component: {fileID: 1983590861}
   - component: {fileID: 1983590860}
   - component: {fileID: 1983590863}
+  - component: {fileID: 1983590864}
   m_Layer: 0
   m_Name: 'Game Manager '
   m_TagString: Untagged
@@ -2467,6 +2471,20 @@ MonoBehaviour:
   - {fileID: 1171930004606076, guid: 8dd53622ecc827247a57474b9075e77f, type: 3}
   minDelay: 7
   maxDelay: 10
+--- !u!114 &1983590864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983590859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43fc5faa2c8bfb945aa7d39c9fb326c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textPopupPrefab: {fileID: 3259236848145528512, guid: dea8fd9a9f49cab43bda84608923340b, type: 3}
+  playerCar: {fileID: 954393654}
 --- !u!1 &2002992214
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,6 +28,6 @@ public class CarHealth : MonoBehaviour
             health = maxHealth;
         }
 
-        healthText.text = "Health: " + health + " / " + maxHealth;
+        healthText.text = "HEALTH: " + health + " / " + maxHealth;
     }
 }

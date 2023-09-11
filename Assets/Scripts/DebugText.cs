@@ -4,8 +4,7 @@ using TMPro;
 using UnityEngine;
 
 /*
- * Abstract class representing a retrievable bonus. 
- * A bonus class must implement the 'BonusCollided' method that defines what it does
+ * A simple class for debug text displaying
  */
 public class DebugText : MonoBehaviour 
 {
