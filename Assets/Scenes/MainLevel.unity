@@ -732,6 +732,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -805,6 +806,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd54228e178163b4886f94385a428b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camTransform: {fileID: 0}
+  shakeDuration: 0
+  shakeAmount: 0.05
 --- !u!1 &573592716
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,7 +1488,7 @@ Transform:
   m_GameObject: {fileID: 820134826}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.8, y: 10, z: 1}
+  m_LocalScale: {x: 5, y: 15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1700,9 +1716,10 @@ MonoBehaviour:
   turnFactor: 6
   roadDrag: 130
   dashForce: 200
-  dashTimeout: 2
   maxRotation: 70
+  dashTimeout: 2
   dashSwipeSpeed: 1000
+  dashScoreCost: 5
   gasButton: {fileID: 1929217922}
   brakeButton: {fileID: 867349950}
 --- !u!50 &954393657
@@ -2429,6 +2446,7 @@ MonoBehaviour:
   civilCar: {fileID: 1406000705186384, guid: 36b04b4f372214d8596662d928135684, type: 3}
   topBlock: {fileID: 453716995}
   bottomBlock: {fileID: 1009189494}
+  gameCamera: {fileID: 519420031}
   leftLaneSpeed: 20
   rightLaneSpeed: 6
 --- !u!4 &1983590861

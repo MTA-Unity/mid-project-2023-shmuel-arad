@@ -13,7 +13,7 @@ public class ScoreBonus : Bonus
         // If the shield bonus collided with an unshielded player
         if (collidingObject.CompareTag("Player") || collidingObject.CompareTag("Shield"))
         {
-            TextPopupManager.DisplayTextOnPlayer("+" + scoreToAdd + " POINTS!");
+            TextPopupManager.DisplayTextOnPlayer("+" + scoreToAdd + " POINTS!", Color.cyan);
             Score.AddScore(scoreToAdd);
             Destroy(gameObject);
         }

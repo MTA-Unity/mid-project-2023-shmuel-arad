@@ -8,6 +8,7 @@ public class CivilCarBehavior : MonoBehaviour
     public float civilCarSpeed;
     public float timeUntilDestroyed = 2f;
     public int crashDamage = 25;
+    public Camera gameCamera;
     bool hasCrashed = false;
 
     void Start()
@@ -24,6 +25,12 @@ public class CivilCarBehavior : MonoBehaviour
             hasCrashed = true;
 
             collidingObject.gameObject.GetComponent<CarHealth>().health -= crashDamage;
+
+            CameraShake shake = gameCamera.GetComponent<CameraShake>();
+            shake.shakeDuration = 0.5f;
+            shake.enabled = true;
+
+            TextPopupManager.DisplayTextOnPlayer($"-{crashDamage} HP", Color.red);
 
             Debug.Log("Civil car collision");
 
@@ -54,6 +61,7 @@ public class CivilCarBehavior : MonoBehaviour
         {
             hasCrashed = true;
             collidingObject.gameObject.GetComponent<CarHealth>().health -= crashDamage / 5;
+            TextPopupManager.DisplayTextOnPlayer($"-{crashDamage / 5} HP", Color.red);
         }
     }
 }

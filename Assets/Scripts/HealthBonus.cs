@@ -8,7 +8,7 @@ public class HealthBonus : Bonus
     protected override void BonusCollided(Collider2D collidingObject)
     {
         // Increase health by repair points, and destroy bonus
-        TextPopupManager.DisplayTextOnPlayer("+" + repairPoints + " HP");
+        TextPopupManager.DisplayTextOnPlayer("+" + repairPoints + " HP", Color.green);
         collidingObject.gameObject.GetComponent<CarHealth>().health += repairPoints;
         Destroy(gameObject);
     }

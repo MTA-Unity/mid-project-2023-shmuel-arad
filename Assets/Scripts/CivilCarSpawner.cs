@@ -13,6 +13,7 @@ public class CivilCarSpawner : MonoBehaviour
 
     public GameObject topBlock;
     public GameObject bottomBlock;
+    public Camera gameCamera;
 
     public int leftLaneSpeed = 300;
     public int rightLaneSpeed = 100;
@@ -60,6 +61,8 @@ public class CivilCarSpawner : MonoBehaviour
 
             car.GetComponent<CivilCarBehavior>().civilCarSpeed = rightLaneSpeed;
         }
+
+        car.GetComponent<CivilCarBehavior>().gameCamera = gameCamera;
 
         Physics2D.IgnoreCollision(car.GetComponent<BoxCollider2D>(), topBlock.GetComponent<BoxCollider2D>());
         Physics2D.IgnoreCollision(car.GetComponent<BoxCollider2D>(), bottomBlock.GetComponent<BoxCollider2D>());

@@ -12,6 +12,7 @@ public class TextPopup : MonoBehaviour
     public Vector2 popupTravel = new(0.2f, 0.4f);
     public float offsetY = 1.2f;
     public float offsetX = 0;
+    public Color textColor = Color.white;
 
     private Vector3 traveledDistance;
     private TextMesh text;
@@ -38,7 +39,7 @@ public class TextPopup : MonoBehaviour
         else
         {
             text.characterSize = startFontSize + (endFontSize - startFontSize) * (elapsedTime / duration);
-            text.color = new Color(text.color.r, text.color.g, text.color.b, 1 - elapsedTime / duration);
+            text.color = new Color(textColor.r, textColor.g, textColor.b, 1 - elapsedTime / duration);
 
             if (followedObject != null)
             {

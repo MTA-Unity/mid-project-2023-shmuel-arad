@@ -13,7 +13,7 @@ public class ShieldBonus : Bonus
         // If the shield bonus collided with an unshielded player
         if (collidingObject.CompareTag("Player"))
         {
-            TextPopupManager.DisplayTextOnPlayer("SHIELD!");
+            TextPopupManager.DisplayTextOnPlayer("SHIELD!", Color.yellow);
 
             // Change their tag to note that they are shielded
             collidingObject.gameObject.tag = "Shield";

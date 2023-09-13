@@ -11,6 +11,7 @@ public class Score : MonoBehaviour {
     public GameObject playerCar;
 
     private int scoreHundreds;
+    private Vector3 prevCarLocation;
 
     public static void AddScore(int score)
     {
@@ -22,6 +23,7 @@ public class Score : MonoBehaviour {
     {
         scoreHundreds = 1;
         currentScore = 0;
+        prevCarLocation = playerCar.transform.position;
     }
 
     private void FixedUpdate()
@@ -32,10 +34,17 @@ public class Score : MonoBehaviour {
 
         if (playerCar.transform.position.x < 0)
         {
+            if (prevCarLocation.x >= 0)
+            {
+                TextPopupManager.DisplayTextOnPlayer("x2", Color.gray, 0.6f);
+            }
+
             multiplier *= 2;
         }
 
         multiplier = Mathf.Clamp(multiplier, 1, multiplier);
+
+        prevCarLocation = playerCar.transform.position;
 
         // Show score as time elapsed from the start of the game
         currentScore += Time.deltaTime * multiplier;
