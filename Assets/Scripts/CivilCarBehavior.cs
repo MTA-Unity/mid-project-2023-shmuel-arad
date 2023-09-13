@@ -26,9 +26,7 @@ public class CivilCarBehavior : MonoBehaviour
 
             collidingObject.gameObject.GetComponent<CarHealth>().health -= crashDamage;
 
-            CameraShake shake = gameCamera.GetComponent<CameraShake>();
-            shake.shakeDuration = 0.5f;
-            shake.enabled = true;
+            gameCamera.GetComponent<CameraShake>().Shake(0.5f);
 
             TextPopupManager.DisplayTextOnPlayer($"-{crashDamage} HP", Color.red);
 

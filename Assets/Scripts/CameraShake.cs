@@ -6,13 +6,15 @@ public class CameraShake : MonoBehaviour
 	// if null.
 	public Transform camTransform;
 
-	// How long the object should shake for.
-	public float shakeDuration = 0f;
-
-	// Amplitude of the shake. A larger value shakes the camera harder.
-	public float shakeAmount = 0.05f;
-
+	float shakeDuration = 0f;
+	float shakeAmount = 0.05f;
 	Vector3 originalPos;
+
+	public void Shake(float duration)
+    {
+		enabled = true;
+		shakeDuration = Mathf.Max(duration, shakeDuration);
+    }
 
 	void Awake()
 	{
@@ -30,7 +32,8 @@ public class CameraShake : MonoBehaviour
     void OnDisable()
     {
         camTransform.localPosition = originalPos;
-    }
+		shakeDuration = 0;
+	}
 
     void FixedUpdate()
 	{
