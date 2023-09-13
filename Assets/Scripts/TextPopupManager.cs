@@ -5,6 +5,7 @@ using UnityEngine;
 // A manager class that is in charge of displaying popup texts
 public class TextPopupManager : MonoBehaviour 
 {
+    public static bool PopupsEnabled { get; set; }
     public GameObject textPopupPrefab;
     public GameObject playerCar;
 
@@ -19,6 +20,7 @@ public class TextPopupManager : MonoBehaviour
 
     void Start()
     {
+        PopupsEnabled = true;
         timeSinceLastPlayerPopup = 0;
         timeSinceLastScreenPopup = 0;
         _textPopupPrefab = textPopupPrefab;
@@ -38,7 +40,7 @@ public class TextPopupManager : MonoBehaviour
 
     public static void DisplayTextOnPlayer(string text, Color textColor, float duration = 1.3f)
     {
-        if (timeSinceLastPlayerPopup > playerPopupTimeout)
+        if (PopupsEnabled && timeSinceLastPlayerPopup > playerPopupTimeout)
         {
             timeSinceLastPlayerPopup = 0;
             GameObject playerPopup = Instantiate(_textPopupPrefab);
@@ -49,12 +51,26 @@ public class TextPopupManager : MonoBehaviour
             popupComponent.textColor = textColor;
             popupComponent.duration = duration;
             popupComponent.popupTravel *= duration / 1.3f;
+
+            if (_playerCar.transform.position.x > 0)
+            {
+                popupComponent.popupTravel.x *= -1;
+                popupComponent.offsetX *= -1;
+            }
+
+            if (_playerCar.transform.position.y + 
+                popupComponent.popupTravel.y + 
+                popupComponent.offsetY > 4)
+            {
+                popupComponent.popupTravel.y *= -1;
+                popupComponent.offsetY *= -1;
+            }
         }
     }
 
     public static void DisplayTextMidScreen(string text)
     {
-        if (timeSinceLastScreenPopup > screenPopupTimeout)
+        if (PopupsEnabled && timeSinceLastScreenPopup > screenPopupTimeout)
         {
             timeSinceLastScreenPopup = 0;
             GameObject screenPopup = Instantiate(_textPopupPrefab);

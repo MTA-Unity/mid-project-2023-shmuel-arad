@@ -13,6 +13,8 @@ public class BonusSpawner : MonoBehaviour
 
     private void Start()
     {
+        Bonus.BonusesEnabled = true;
+
         // Randomly select a delay by which to spawn the next bonus
         _delay = Random.Range(minDelay, maxDelay);
     }

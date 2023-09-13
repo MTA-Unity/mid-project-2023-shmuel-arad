@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // In charge of managing the car's health status and changing scenes when dying
 public class CarHealth : MonoBehaviour 
 {
+    public GameObject deathMenu;
+
     public TMP_Text healthText;
     public int maxHealth = 100;
     public int health;
@@ -18,12 +21,16 @@ public class CarHealth : MonoBehaviour
 
     private void Update()
     {
-        // If the car is dying, return to main menu
+        // If the car is dying, show death menu
         if (health <= 0)
         {
-            SceneManager.LoadScene("MainMenu");
+            healthText.text = "DEAD";
+            deathMenu.SetActive(true);
+
+            return;
         }
-        else if (health > maxHealth)
+
+        if (health > maxHealth)
         {
             health = maxHealth;
         }

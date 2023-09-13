@@ -8,6 +8,8 @@ using UnityEngine.UI;
 // In charge of moving the car by the user input
 public class CarControl : MonoBehaviour
 {
+    public bool ControlsEnabled { get; set; }
+
     [Header("Car Physics")]
     public float maxSpeed = 3f;
     public float driftFactor = 0.95f;
@@ -37,6 +39,7 @@ public class CarControl : MonoBehaviour
 
     private void Start()
     {
+        ControlsEnabled = true;
         carRigidbody2D = GetComponent<Rigidbody2D>();
         if (SystemInfo.supportsGyroscope)
         {
@@ -215,13 +218,13 @@ public class CarControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float accelerationInput = GetVerticalAxis();
-        float steeringInput = GetHorizontalAxis();
+        float accelerationInput = ControlsEnabled ? GetVerticalAxis() : 0;
+        float steeringInput = ControlsEnabled ? GetHorizontalAxis() : 0;
 
         ApplyEngineForce(accelerationInput);
         ApplySteering(steeringInput);
         KillOrthogonalVelocity(accelerationInput);
-        DetectDashes();
+        if (ControlsEnabled) DetectDashes();
 
         if (Input.GetKey(KeyCode.Escape))
         {

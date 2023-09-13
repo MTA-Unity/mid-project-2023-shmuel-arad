@@ -10,6 +10,7 @@ public abstract class Bonus : MonoBehaviour
 {
     [Header("Bonus settings")]
     public float bonusSpeed = 10f;
+    public static bool BonusesEnabled { get; set; }
 
     private void Update()
     {
@@ -19,6 +20,8 @@ public abstract class Bonus : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collidingObject)
     {
+        if (!BonusesEnabled) return;
+
         // If the bonus collided with the player (shielded or not)
         if (collidingObject.gameObject.CompareTag("Player") || collidingObject.gameObject.CompareTag("Shield"))
         {
