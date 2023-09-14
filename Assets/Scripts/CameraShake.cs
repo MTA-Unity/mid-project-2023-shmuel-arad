@@ -2,6 +2,8 @@
 
 public class CameraShake : MonoBehaviour
 {
+	public bool ShakeEnabled { get; set; }
+
 	// Transform of the camera to shake. Grabs the gameObject's transform
 	// if null.
 	public Transform camTransform;
@@ -18,6 +20,8 @@ public class CameraShake : MonoBehaviour
 
 	void Awake()
 	{
+		ShakeEnabled = true;
+
 		if (camTransform == null)
 		{
 			camTransform = transform;
@@ -37,6 +41,7 @@ public class CameraShake : MonoBehaviour
 
     void FixedUpdate()
 	{
+		if (!ShakeEnabled) return;
 		if (shakeDuration > 0)
 		{
 			camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;

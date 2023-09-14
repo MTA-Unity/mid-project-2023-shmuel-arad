@@ -15,7 +15,7 @@ public class DeathMenu : MonoBehaviour
         scoreObject.GetComponent<Score>().enabled = false;
         playerCar.GetComponent<CarControl>().ControlsEnabled = false;
         TextPopupManager.PopupsEnabled = false;
-        gameCamera.GetComponent<CameraShake>().enabled = false;
+        gameCamera.GetComponent<CameraShake>().ShakeEnabled = false;
         Bonus.BonusesEnabled = false;
     }
 
