@@ -40,7 +40,8 @@ public class CivilCarBehavior : MonoBehaviour
             Destroy(gameObject);
         }
         else if (collidingObject.gameObject.CompareTag("CivilCar") || 
-                 collidingObject.gameObject.CompareTag("Shield"))
+                 collidingObject.gameObject.CompareTag("Shield") ||
+                 collidingObject.gameObject.CompareTag("Wall"))
         {
             StartCoroutine(DestroyCivilCar());
         }

@@ -26,8 +26,9 @@ public class Wall : MonoBehaviour
         {
             timeLeftToDamage -= Time.deltaTime;
         }
-        else if (currentCollider != null)
+        else if (currentCollider != null && currentCollider.gameObject.CompareTag("Player"))
         {
+            shake.Shake(1000f);
             timeLeftToDamage = interval;
             currentCollider.health -= damage;
             TextPopupManager.DisplayTextOnPlayer($"-{damage} HP", Color.red);
@@ -37,11 +38,10 @@ public class Wall : MonoBehaviour
     // This is called when the player collides with the wall
     private void OnCollisionEnter2D(Collision2D collidingObject)
     {
-        if (collidingObject.gameObject.CompareTag("Player"))
+        if (collidingObject.gameObject.CompareTag("Player") ||
+            collidingObject.gameObject.CompareTag("Shield"))
         {
             currentCollider = collidingObject.gameObject.GetComponent<CarHealth>();
-
-            shake.Shake(1000f);
         }
     }
 

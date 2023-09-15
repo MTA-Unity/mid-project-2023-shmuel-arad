@@ -6,8 +6,8 @@ TagManager:
   tags:
   - EndOfRoad
   - Shield
-  - VerticalBlock
   - CivilCar
+  - Wall
   layers:
   - Default
   - TransparentFX

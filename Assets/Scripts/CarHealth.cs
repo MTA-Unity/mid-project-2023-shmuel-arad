@@ -10,7 +10,6 @@ public class CarHealth : MonoBehaviour
 {
     public GameObject deathMenu;
 
-    public TMP_Text healthText;
     public int maxHealth = 100;
     public int health;
 
@@ -24,7 +23,6 @@ public class CarHealth : MonoBehaviour
         // If the car is dying, show death menu
         if (health <= 0)
         {
-            healthText.text = "DEAD";
             deathMenu.SetActive(true);
 
             return;
@@ -34,7 +32,5 @@ public class CarHealth : MonoBehaviour
         {
             health = maxHealth;
         }
-
-        healthText.text = "HEALTH: " + health + " / " + maxHealth;
     }
 }

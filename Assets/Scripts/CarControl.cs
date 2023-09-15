@@ -225,10 +225,5 @@ public class CarControl : MonoBehaviour
         ApplySteering(steeringInput);
         KillOrthogonalVelocity(accelerationInput);
         if (ControlsEnabled) DetectDashes();
-
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            SceneManager.LoadScene("MainMenu");
-        }
     }
 }
