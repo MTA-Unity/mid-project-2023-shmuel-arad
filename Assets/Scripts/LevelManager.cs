@@ -6,6 +6,7 @@ using System.IO;
 // This script is in charge of the levels menu
 public class LevelManager : MonoBehaviour
 {
+    public GameObject mainMenu;
     public List<Button> levelButtons;
 
     public static int levelSelected = 0;
@@ -60,6 +61,15 @@ public class LevelManager : MonoBehaviour
         {
             levelUnlocked = level;
             File.WriteAllText(unlockedLevelFilePath, levelUnlocked.ToString());
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            mainMenu.SetActive(true);
+            gameObject.SetActive(false);
         }
     }
 }
