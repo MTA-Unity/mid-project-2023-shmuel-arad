@@ -10,14 +10,12 @@ public class PauseMenu : MonoBehaviour
     {
         if (deathMenu.activeSelf)
         {
-            Time.timeScale = 1f;
             gameObject.SetActive(false);
         }
-    }
-
-    public void OnPause()
-    {
-        Time.timeScale = 0f;
+        else
+        {
+            Time.timeScale = 0f;
+        }
     }
 
     public void OnResume()

@@ -19,7 +19,7 @@ public class DeathMenu : MonoBehaviour
         Bonus.BonusesEnabled = false;
     }
 
-    public void OnBack()
+    public void OnQuit()
     {
         TextPopupManager.PopupsEnabled = true;
         Bonus.BonusesEnabled = true;
@@ -31,5 +31,13 @@ public class DeathMenu : MonoBehaviour
         TextPopupManager.PopupsEnabled = true;
         Bonus.BonusesEnabled = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnQuit();
+        }
     }
 }

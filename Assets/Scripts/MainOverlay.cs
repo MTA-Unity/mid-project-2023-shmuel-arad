@@ -12,7 +12,6 @@ public class MainOverlay : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Time.timeScale = 0f;
             pauseMenu.SetActive(true);
         }
     }
