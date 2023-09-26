@@ -26,6 +26,12 @@ public class CarControl : MonoBehaviour
     public int dashSwipeSpeed = 1000;
     public int dashScoreCost = 5;
 
+    [Header("Car Bullets")]
+    public GameObject bulletPrefab;
+    public float bulletFireInterval;
+    public float bulletYOffset = 1.3f;
+    public float bulletXOffset = 0.2f;
+
     [Header("Car Buttons")]
     public Button gasButton;
     public Button brakeButton;
@@ -36,6 +42,8 @@ public class CarControl : MonoBehaviour
     private Rigidbody2D carRigidbody2D;
 
     private float lastDashTime = 0;
+    private float lastBulletTime = 0;
+    private float lastBulletPosition;
 
     private void Start()
     {
@@ -45,6 +53,8 @@ public class CarControl : MonoBehaviour
         {
             Input.gyro.enabled = true;
         }
+
+        lastBulletPosition = bulletXOffset;
     }
 
     public void GasButtonClicked()
@@ -216,6 +226,23 @@ public class CarControl : MonoBehaviour
         }
     }
 
+    public void DetectBullets()
+    {
+        lastBulletTime += Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (lastBulletTime >= bulletFireInterval)
+            {
+                lastBulletTime = 0;
+
+                GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.rotation * new Vector3(lastBulletPosition, bulletYOffset), transform.rotation);
+                Physics2D.IgnoreCollision(carRigidbody2D.GetComponent<Collider2D>(), bullet.GetComponent<Collider2D>());
+                lastBulletPosition *= -1;
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         float accelerationInput = ControlsEnabled ? GetVerticalAxis() : 0;
@@ -225,5 +252,6 @@ public class CarControl : MonoBehaviour
         ApplySteering(steeringInput);
         KillOrthogonalVelocity(accelerationInput);
         if (ControlsEnabled) DetectDashes();
+        if (ControlsEnabled) DetectBullets();
     }
 }

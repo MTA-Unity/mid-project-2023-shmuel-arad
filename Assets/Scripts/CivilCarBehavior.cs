@@ -6,7 +6,8 @@ using UnityEngine;
 public class CivilCarBehavior : MonoBehaviour 
 {
     public float civilCarSpeed;
-    public float timeUntilDestroyed = 2f;
+    public float crashDestroyTime = 2f;
+    public float bulletDestroyTime = 0.6f;
     public int crashDamage = 25;
     public Camera gameCamera;
     bool hasCrashed = false;
@@ -32,7 +33,7 @@ public class CivilCarBehavior : MonoBehaviour
 
             Debug.Log("Civil car collision");
 
-            StartCoroutine(DestroyCivilCar());
+            StartCoroutine(DestroyCivilCar(crashDestroyTime));
         }
         // Destroy the civil car upon exiting the screen
         else if (collidingObject.gameObject.CompareTag("EndOfRoad"))
@@ -40,13 +41,15 @@ public class CivilCarBehavior : MonoBehaviour
             Destroy(gameObject);
         }
         else if (collidingObject.gameObject.CompareTag("CivilCar") || 
-                 collidingObject.gameObject.CompareTag("Shield"))
+                 collidingObject.gameObject.CompareTag("Shield") ||
+                 collidingObject.gameObject.CompareTag("Bullet"))
         {
-            StartCoroutine(DestroyCivilCar());
+            TextPopupManager.DisplayTextOnObject(gameObject, $"HIT!", Color.red);
+            StartCoroutine(DestroyCivilCar(bulletDestroyTime));
         }
     }
 
-    private IEnumerator DestroyCivilCar()
+    private IEnumerator DestroyCivilCar(float timeUntilDestroyed)
     {
         yield return new WaitForSeconds(timeUntilDestroyed);
         Destroy(gameObject);

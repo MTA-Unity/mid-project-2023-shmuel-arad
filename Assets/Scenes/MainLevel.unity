@@ -2414,6 +2414,10 @@ MonoBehaviour:
   dashTimeout: 2
   dashSwipeSpeed: 1000
   dashScoreCost: 5
+  bulletPrefab: {fileID: 6869311466061059940, guid: 13c2d1a6ea24d0e4ebc9fa42c559edb1, type: 3}
+  bulletFireInterval: 0.2
+  bulletYOffset: 1
+  bulletXOffset: 0.2
   gasButton: {fileID: 1929217922}
   brakeButton: {fileID: 867349950}
 --- !u!50 &954393657

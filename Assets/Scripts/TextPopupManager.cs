@@ -38,33 +38,46 @@ public class TextPopupManager : MonoBehaviour
         DisplayTextOnPlayer(text, Color.white, duration);
     }
 
-    public static void DisplayTextOnPlayer(string text, Color textColor, float duration = 1.3f)
+    public static void DisplayTextOnObject(GameObject parent, string text, float duration = 1.3f)
     {
-        if (PopupsEnabled && timeSinceLastPlayerPopup > playerPopupTimeout)
+        DisplayTextOnObject(parent, text, Color.white, duration);
+    }
+
+    public static void DisplayTextOnObject(GameObject parent, string text, Color textColor, float duration = 1.3f)
+    {
+        if (PopupsEnabled)
         {
-            timeSinceLastPlayerPopup = 0;
             GameObject playerPopup = Instantiate(_textPopupPrefab);
             TextPopup popupComponent = playerPopup.GetComponent<TextPopup>();
 
             popupComponent.displayText = text;
-            popupComponent.followedObject = _playerCar;
+            popupComponent.followedObject = parent;
             popupComponent.textColor = textColor;
             popupComponent.duration = duration;
             popupComponent.popupTravel *= duration / 1.3f;
 
-            if (_playerCar.transform.position.x > 0)
+            if (parent.transform.position.x > 0)
             {
                 popupComponent.popupTravel.x *= -1;
                 popupComponent.offsetX *= -1;
             }
 
-            if (_playerCar.transform.position.y + 
-                popupComponent.popupTravel.y + 
+            if (parent.transform.position.y +
+                popupComponent.popupTravel.y +
                 popupComponent.offsetY > 4)
             {
                 popupComponent.popupTravel.y *= -1;
                 popupComponent.offsetY *= -1;
             }
+        }
+    }
+
+    public static void DisplayTextOnPlayer(string text, Color textColor, float duration = 1.3f)
+    {
+        if (timeSinceLastPlayerPopup > playerPopupTimeout)
+        {
+            timeSinceLastPlayerPopup = 0;
+            DisplayTextOnObject(_playerCar, text, textColor, duration);
         }
     }
 
