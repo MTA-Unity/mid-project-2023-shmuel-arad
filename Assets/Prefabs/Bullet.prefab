@@ -98,7 +98,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 6869311466061059940}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 10
   timeUntilDisappear: 2
+  destroyTime: 0.3
 --- !u!1 &6869311466261079166
 GameObject:
   m_ObjectHideFlags: 0

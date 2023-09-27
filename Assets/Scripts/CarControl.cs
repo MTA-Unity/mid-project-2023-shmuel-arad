@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 // In charge of moving the car by the user input
@@ -31,6 +27,7 @@ public class CarControl : MonoBehaviour
     public float bulletFireInterval;
     public float bulletYOffset = 1.3f;
     public float bulletXOffset = 0.2f;
+    public float fireStartupTime = 1f;
 
     [Header("Car Buttons")]
     public Button gasButton;
@@ -41,6 +38,8 @@ public class CarControl : MonoBehaviour
 
     private Rigidbody2D carRigidbody2D;
 
+    private bool fireClicked = false;
+    private float fireClickedTime = 0;
     private float lastDashTime = 0;
     private float lastBulletTime = 0;
     private float lastBulletPosition;
@@ -55,6 +54,18 @@ public class CarControl : MonoBehaviour
         }
 
         lastBulletPosition = bulletXOffset;
+    }
+
+    public void FireClicked()
+    {
+        fireClickedTime = 0;
+        fireClicked = true;
+    }
+
+    public void FireReleased()
+    {
+        fireClickedTime = 0;
+        fireClicked = false;
     }
 
     public void GasButtonClicked()
@@ -230,9 +241,13 @@ public class CarControl : MonoBehaviour
     {
         lastBulletTime += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space))
+        if (fireClicked || Input.GetKey(KeyCode.Space))
         {
-            if (lastBulletTime >= bulletFireInterval)
+            if (fireClickedTime < fireStartupTime)
+            {
+                fireClickedTime += Time.deltaTime;
+            }
+            else if (lastBulletTime >= bulletFireInterval)
             {
                 lastBulletTime = 0;
 
