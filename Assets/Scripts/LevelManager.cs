@@ -7,7 +7,7 @@ using System.IO;
 public class LevelManager : MonoBehaviour
 {
     public GameObject mainMenu;
-    public List<Button> levelButtons;
+    public Button[] levelButtons = new Button[3];
 
     public static int levelSelected = 0;
 
@@ -30,14 +30,14 @@ public class LevelManager : MonoBehaviour
         LoadUnlockedLevel();
 
         levelButtons[levelSelected].interactable = false;
-        for (int levelIndex = 0; levelIndex < levelButtons.Count; levelIndex++)
+        for (int levelIndex = 0; levelIndex < levelButtons.Length; levelIndex++)
         {
             int currentLevel = levelIndex;
             levelButtons[levelIndex].onClick.AddListener(() => LevelSelected(currentLevel));
             levelButtons[levelIndex].gameObject.SetActive(true);
         }
 
-        for (int levelIndex = levelUnlocked + 1; levelIndex < levelButtons.Count; levelIndex++)
+        for (int levelIndex = levelUnlocked + 1; levelIndex < levelButtons.Length; levelIndex++)
         {
             levelButtons[levelIndex].gameObject.SetActive(false);
         }

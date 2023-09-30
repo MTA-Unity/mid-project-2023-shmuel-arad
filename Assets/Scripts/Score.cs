@@ -21,8 +21,8 @@ public class Score : MonoBehaviour {
 
     private void Start()
     {
-        scoreHundreds = 1;
-        CurrentScore = 0;
+        scoreHundreds = LevelManager.levelSelected + 1;
+        CurrentScore = LevelManager.levelSelected * 100;
         prevCarLocation = playerCar.transform.position;
     }
 
@@ -50,10 +50,12 @@ public class Score : MonoBehaviour {
         CurrentScore += Time.deltaTime * multiplier;
         scoreUI.text = "SCORE: " + ((int)CurrentScore) + "\nx" + decimal.Round((decimal)multiplier, 1);
 
-        if (CurrentScore - scoreHundreds * 100 > 0)
+
+        if ((CurrentScore - (scoreHundreds * 100) > 0) && (scoreHundreds <= 3))
         {
-            LevelManager.UnlockLevel(1);
-            TextPopupManager.DisplayTextMidScreen($"{scoreHundreds}00 POINTS!");
+            LevelManager.UnlockLevel(scoreHundreds);
+
+            TextPopupManager.DisplayTextMidScreen($"{scoreHundreds}00 POINTS\nLevel {scoreHundreds + 1} Unlocked!");
             scoreHundreds++;
         }
     }

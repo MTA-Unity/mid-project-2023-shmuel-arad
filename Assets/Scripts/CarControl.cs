@@ -58,14 +58,20 @@ public class CarControl : MonoBehaviour
 
     public void FireClicked()
     {
-        fireClickedTime = 0;
-        fireClicked = true;
+        if (LevelManager.levelSelected >= 2)
+        {
+            fireClickedTime = 0;
+            fireClicked = true;
+        }
     }
 
     public void FireReleased()
     {
-        fireClickedTime = 0;
-        fireClicked = false;
+        if (LevelManager.levelSelected >= 2)
+        {
+            fireClickedTime = 0;
+            fireClicked = false;
+        }
     }
 
     public void GasButtonClicked()
@@ -197,63 +203,72 @@ public class CarControl : MonoBehaviour
 
     private void PerformDashIfPossible(bool right)
     {
-        if (Time.realtimeSinceStartup - lastDashTime > dashTimeout)
+        if (LevelManager.levelSelected >= 1)
         {
-            if (dashScoreCost > 0)
+            if (Time.realtimeSinceStartup - lastDashTime > dashTimeout)
             {
-                TextPopupManager.DisplayTextOnPlayer($"-{dashScoreCost} POINTS!");
-                Score.AddScore(-dashScoreCost);
-            }
+                if (dashScoreCost > 0)
+                {
+                    TextPopupManager.DisplayTextOnPlayer($"-{dashScoreCost} POINTS!");
+                    Score.AddScore(-dashScoreCost);
+                }
 
-            lastDashTime = Time.realtimeSinceStartup;
-            carRigidbody2D.AddForce(new Vector2((right ? 1 : -1) * dashForce, 0));
+                lastDashTime = Time.realtimeSinceStartup;
+                carRigidbody2D.AddForce(new Vector2((right ? 1 : -1) * dashForce, 0));
+            }
         }
     }
 
     private void DetectDashes()
     {
-        if (Input.touchSupported && Input.touchCount > 0)
+        if (LevelManager.levelSelected >= 1)
         {
-            Touch lastTouch = Input.GetTouch(0);
+            if (Input.touchSupported && Input.touchCount > 0)
+            {
+                Touch lastTouch = Input.GetTouch(0);
 
-            if (lastTouch.deltaTime == 0) return;
+                if (lastTouch.deltaTime == 0) return;
 
-            if (lastTouch.deltaPosition.x / lastTouch.deltaTime > dashSwipeSpeed)
+                if (lastTouch.deltaPosition.x / lastTouch.deltaTime > dashSwipeSpeed)
+                {
+                    PerformDashIfPossible(true);
+                }
+                else if (lastTouch.deltaPosition.x / lastTouch.deltaTime < -dashSwipeSpeed)
+                {
+                    PerformDashIfPossible(false);
+                }
+            }
+            else if (Input.GetKey(KeyCode.G))
             {
                 PerformDashIfPossible(true);
             }
-            else if (lastTouch.deltaPosition.x / lastTouch.deltaTime < -dashSwipeSpeed)
+            else if (Input.GetKey(KeyCode.F))
             {
                 PerformDashIfPossible(false);
             }
-        }
-        else if (Input.GetKey(KeyCode.G))
-        {
-            PerformDashIfPossible(true);
-        }
-        else if (Input.GetKey(KeyCode.F))
-        {
-            PerformDashIfPossible(false);
         }
     }
 
     public void DetectBullets()
     {
-        lastBulletTime += Time.deltaTime;
-
-        if (fireClicked || Input.GetKey(KeyCode.Space))
+        if (LevelManager.levelSelected >= 2)
         {
-            if (fireClickedTime < fireStartupTime)
-            {
-                fireClickedTime += Time.deltaTime;
-            }
-            else if (lastBulletTime >= bulletFireInterval)
-            {
-                lastBulletTime = 0;
+            lastBulletTime += Time.deltaTime;
 
-                GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.rotation * new Vector3(lastBulletPosition, bulletYOffset), transform.rotation);
-                Physics2D.IgnoreCollision(carRigidbody2D.GetComponent<Collider2D>(), bullet.GetComponent<Collider2D>());
-                lastBulletPosition *= -1;
+            if (fireClicked || Input.GetKey(KeyCode.Space))
+            {
+                if (fireClickedTime < fireStartupTime)
+                {
+                    fireClickedTime += Time.deltaTime;
+                }
+                else if (lastBulletTime >= bulletFireInterval)
+                {
+                    lastBulletTime = 0;
+
+                    GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.rotation * new Vector3(lastBulletPosition, bulletYOffset), transform.rotation);
+                    Physics2D.IgnoreCollision(carRigidbody2D.GetComponent<Collider2D>(), bullet.GetComponent<Collider2D>());
+                    lastBulletPosition *= -1;
+                }
             }
         }
     }
