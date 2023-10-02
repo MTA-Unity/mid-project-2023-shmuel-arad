@@ -60,7 +60,7 @@ public class Score : MonoBehaviour {
         {
             LevelManager.UnlockLevel(scoreHundreds);
 
-            TextPopupManager.DisplayTextMidScreen($"{scoreHundreds}00 POINTS\nLevel {scoreHundreds + 1} Unlocked!");
+            TextPopupManager.DisplayTextMidScreen($"LEVEL {scoreHundreds + 1}\nUNLOCKED!");
             scoreHundreds++;
         }
     }

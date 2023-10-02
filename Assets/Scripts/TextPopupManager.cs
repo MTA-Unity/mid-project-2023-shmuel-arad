@@ -95,8 +95,8 @@ public class TextPopupManager : MonoBehaviour
             popupComponent.popupTravel.x = 0;
             popupComponent.popupTravel.y = 0.15f;
             popupComponent.offsetY = 0;
-            popupComponent.startFontSize = 0.5f;
-            popupComponent.endFontSize = 0.6f;
+            popupComponent.startFontSize = 0.4f;
+            popupComponent.endFontSize = 0.5f;
         }
     }
 }

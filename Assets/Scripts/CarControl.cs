@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 // In charge of moving the car by the user input
@@ -46,6 +47,8 @@ public class CarControl : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(DisplayControlInstructions());
+
         ControlsEnabled = true;
         carRigidbody2D = GetComponent<Rigidbody2D>();
 
@@ -56,6 +59,22 @@ public class CarControl : MonoBehaviour
         }
 
         lastBulletPosition = bulletXOffset;
+    }
+
+    IEnumerator DisplayControlInstructions()
+    {
+        if (LevelManager.levelSelected > 0)
+        {
+            yield return new WaitForSeconds(1);
+            TextPopupManager.DisplayTextMidScreen("SWIPE TO DASH!");
+
+            if (LevelManager.levelSelected > 1)
+            {
+                yield return new WaitForSeconds(2);
+
+                TextPopupManager.DisplayTextMidScreen("HOLD TO SHOOT!");
+            }
+        }
     }
 
     public void FireClicked()
