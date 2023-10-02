@@ -10,6 +10,7 @@ public class MainOverlay : MonoBehaviour
 
     void Update()
     {
+        // When the user tries to pause the game while playing
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseMenu.SetActive(true);

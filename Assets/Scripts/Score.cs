@@ -13,6 +13,9 @@ public class Score : MonoBehaviour {
     private int scoreHundreds;
     private Vector3 prevCarLocation;
 
+    /**
+     * Update the score considering some restricions like no negative score
+     */
     public static void AddScore(int score)
     {
         CurrentScore += score;
@@ -21,6 +24,7 @@ public class Score : MonoBehaviour {
 
     private void Start()
     {
+        // Init some class members
         scoreHundreds = LevelManager.levelSelected + 1;
         CurrentScore = LevelManager.levelSelected * 100;
         prevCarLocation = playerCar.transform.position;
@@ -32,6 +36,7 @@ public class Score : MonoBehaviour {
 
         multiplier += (playerCar.transform.position.y + 3) / 10f;
 
+        // When the car is at greater risk (the upper part of the screen), get more points according to the multiplier value
         if (playerCar.transform.position.x < 0)
         {
             if (prevCarLocation.x >= 0)
@@ -50,8 +55,8 @@ public class Score : MonoBehaviour {
         CurrentScore += Time.deltaTime * multiplier;
         scoreUI.text = "SCORE: " + ((int)CurrentScore) + "\nx" + decimal.Round((decimal)multiplier, 1);
 
-
-        if ((CurrentScore - (scoreHundreds * 100) > 0) && (scoreHundreds <= 3))
+        // Unlock a level when the user gets to the wanted score
+        if ((CurrentScore - (scoreHundreds * 100) > 0) && (scoreHundreds <= 2))
         {
             LevelManager.UnlockLevel(scoreHundreds);
 

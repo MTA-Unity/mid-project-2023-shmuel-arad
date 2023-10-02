@@ -48,6 +48,8 @@ public class CarControl : MonoBehaviour
     {
         ControlsEnabled = true;
         carRigidbody2D = GetComponent<Rigidbody2D>();
+
+        // Allow gyro if the system supports it
         if (SystemInfo.supportsGyroscope)
         {
             Input.gyro.enabled = true;
@@ -58,6 +60,7 @@ public class CarControl : MonoBehaviour
 
     public void FireClicked()
     {
+        // Enabled only for level 3 and above (levels start at 0 in code)
         if (LevelManager.levelSelected >= 2)
         {
             fireClickedTime = 0;
@@ -67,6 +70,7 @@ public class CarControl : MonoBehaviour
 
     public void FireReleased()
     {
+        // Enabled only for level 3 and above (levels start at 0 in code)
         if (LevelManager.levelSelected >= 2)
         {
             fireClickedTime = 0;
@@ -203,6 +207,7 @@ public class CarControl : MonoBehaviour
 
     private void PerformDashIfPossible(bool right)
     {
+        // Enabled only for level 2 and above (levels start at 0 in code)
         if (LevelManager.levelSelected >= 1)
         {
             if (Time.realtimeSinceStartup - lastDashTime > dashTimeout)
@@ -221,6 +226,7 @@ public class CarControl : MonoBehaviour
 
     private void DetectDashes()
     {
+        // Enabled only for level 2 and above (levels start at 0 in code)
         if (LevelManager.levelSelected >= 1)
         {
             if (Input.touchSupported && Input.touchCount > 0)
@@ -251,6 +257,7 @@ public class CarControl : MonoBehaviour
 
     public void DetectBullets()
     {
+        // Enabled only for level 3 and above (levels start at 0 in code)
         if (LevelManager.levelSelected >= 2)
         {
             lastBulletTime += Time.deltaTime;
